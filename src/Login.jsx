@@ -16,7 +16,7 @@ export default class Login extends Component {
             className='form-control'
             value={this.state.email}
             onChange={(event) => {
-              event.target.value
+              this.setState({ email: event.target.value })
             }}
           />
         </div>
@@ -28,10 +28,29 @@ export default class Login extends Component {
             type='password'
             className='form-control'
             value={this.state.password}
+            onChange={(event) => {
+              this.setState({ password: event.target.value })
+            }}
           />
         </div>
         {/*Password ends */}
+        <div className='text-right'>
+          <button className='btn btn-primary' onClick={this.onLoginClick}>
+            Login
+          </button>
+        </div>
       </div>
     )
+  } // end of render
+
+  onLoginClick = () => {
+    if (
+      this.state.email === 'admin@gmail.com' &&
+      this.state.password === 'admin123'
+    ) {
+      window.alert('Success')
+    } else {
+      window.alert('Error')
+    }
   }
 }
