@@ -6,54 +6,56 @@ export default class Product extends Component {
   render() {
     console.log(this.state.product)
     return (
-      <div className='col-lg-6'>
-        <div className='card m-2'>
-          <div className='card-body'>
-            <div className='text-muted'>
-              #{this.state.product.id}
-              <span
-                className='pull-right hand-icon'
-                onClick={() => {
-                  this.props.onDelete(this.state.product)
-                }}
-              >
-                <i className='fa fa-times'></i>
-              </span>
-            </div>
-            <h5 className='pt-5 border-top'>
-              {this.state.product.productName}
-            </h5>
-            <div>${this.state.product.price}</div>
-          </div>
-          {/*card body ends */}
-          <div className='card-footer'>
-            <div className='float-left'>
-              <span
-                className='badge'
-                style={{ color: 'black', fontSize: '20px' }}
-              >
-                {this.state.product.quantity}
-              </span>
-              <div className='btn-group'>
-                <button
-                  className='btn btn-outline-success'
+      <div className='row'>
+        <div className='col-lg-6'>
+          <div className='card m-2'>
+            <div className='card-body'>
+              <div className='text-muted'>
+                #{this.state.product.id}
+                <span
+                  className='pull-right hand-icon'
                   onClick={() => {
-                    this.props.onIncrement(this.state.product, 10)
+                    this.props.onDelete(this.state.product)
                   }}
                 >
-                  +
-                </button>
-                <button
-                  className='btn btn-outline-success'
-                  onClick={() => {
-                    this.props.onDecrement(this.state.product, 0)
-                  }}
-                >
-                  -
-                </button>
+                  <i className='fa fa-times'></i>
+                </span>
               </div>
+              <h5 className='pt-5 border-top'>
+                {this.state.product.productName}
+              </h5>
+              <div>${this.state.product.price}</div>
             </div>
-            <div className='float-right'>{this.props.children}</div>
+            {/*card body ends */}
+            <div className='card-footer'>
+              <div className='float-left'>
+                <span
+                  className='badge'
+                  style={{ color: 'black', fontSize: '20px' }}
+                >
+                  {this.state.product.quantity}
+                </span>
+                <div className='btn-group'>
+                  <button
+                    className='btn btn-outline-success'
+                    onClick={() => {
+                      this.props.onIncrement(this.state.product, 10)
+                    }}
+                  >
+                    +
+                  </button>
+                  <button
+                    className='btn btn-outline-success'
+                    onClick={() => {
+                      this.props.onDecrement(this.state.product, 0)
+                    }}
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+              <div className='float-right'>{this.props.children}</div>
+            </div>
           </div>
         </div>
       </div>
