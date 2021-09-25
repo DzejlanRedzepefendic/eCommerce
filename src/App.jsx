@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import NavBar from './NavBar'
 import ShoppingCart from './ShoppingCart'
 import Login from './Login'
-import CustomerList from './CustomersList'
+import CustomersList from './CustomersList'
 import Dashboard from './Dashboard'
 import NoMatchPage from './NoMatchPage'
 import { Route, Switch } from 'react-router'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
+import history from './history'
+import SideBar from './Sidebar'
+import ProductById from './ProductById'
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -14,29 +17,43 @@ export default class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter>
-        <NavBar isLoggedIn={this.state.isLoggedIn} />
+      <Router history={history}>
+        <NavBar
+          isLoggedIn={this.state.isLoggedIn}
+          updateIsLoggedInStatus={this.updateIsLoggedInStatus}
+        />
+
         <div className='container-fluid'>
-          <Switch>
-            <Route
-              path='/'
-              exact
-              render={(props) => (
-                <Login
-                  {...props}
-                  updateIsLoggedInStatus={this.updateIsLoggedInStatus}
+          <div className='row'>
+            <div className='col-lg-3'>
+              {this.state.isLoggedIn ? <SideBar></SideBar> : ''}
+            </div>
+
+            <div className='col-lg-9'>
+              <Switch>
+                <Route
+                  path='/'
+                  exact
+                  render={(props) => (
+                    <Login
+                      {...props}
+                      updateIsLoggedInStatus={this.updateIsLoggedInStatus}
+                    />
+                  )}
                 />
-              )}
-            />
-            <Route path='/dashboard' exact component={Dashboard} />
-            <Route path='/customers' exact component={CustomerList} />
-            <Route path='/cart' exact component={ShoppingCart} />
-            <Route path='*' exact component={NoMatchPage} />
-          </Switch>
+                <Route path='/dashboard' exact component={Dashboard} />
+                <Route path='/customers' exact component={CustomersList} />
+                <Route path='/cart' exact component={ShoppingCart} />
+                <Route path='/product/:id' exact component={ProductById} />
+                <Route path='*' component={NoMatchPage} />
+              </Switch>
+            </div>
+          </div>
         </div>
-      </BrowserRouter>
+      </Router>
     )
   }
+
   updateIsLoggedInStatus = (status) => {
     this.setState({ isLoggedIn: status })
   }

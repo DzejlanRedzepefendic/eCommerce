@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-export default class Product extends Component {
-  state = {
-    product: this.props.product,
+export default class ProductByID extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      product: {},
+    }
   }
   render() {
-    console.log(this.state.product)
     return (
       <div className='row'>
-        <div className='col-lg-6'>
+        <div className='col-lg-6 mx-auto'>
           <div className='card m-2'>
             <div className='card-body'>
               <div className='text-muted'>
-                #{this.state.product.id}
+                # {this.state.product.id}
+                {/* delete button starts */}
                 <span
                   className='pull-right hand-icon'
                   onClick={() => {
@@ -21,21 +25,21 @@ export default class Product extends Component {
                 >
                   <i className='fa fa-times'></i>
                 </span>
+                {/* delete button ends */}
               </div>
-              <h5 className='pt-5 border-top'>
+
+              <h5 className='pt-2 border-top'>
                 {this.state.product.productName}
               </h5>
-              <div>${this.state.product.price}</div>
+
+              <div>$ {this.state.product.price}</div>
             </div>
-            {/*card body ends */}
+            {/* card body ends here */}
+
             <div className='card-footer'>
               <div className='float-left'>
-                <span
-                  className='badge'
-                  style={{ color: 'black', fontSize: '20px' }}
-                >
-                  {this.state.product.quantity}
-                </span>
+                <span className='badge'>{this.state.product.quantity}</span>
+
                 <div className='btn-group'>
                   <button
                     className='btn btn-outline-success'
@@ -45,6 +49,7 @@ export default class Product extends Component {
                   >
                     +
                   </button>
+
                   <button
                     className='btn btn-outline-success'
                     onClick={() => {
@@ -55,16 +60,31 @@ export default class Product extends Component {
                   </button>
                 </div>
               </div>
+              {/* float-left ends here */}
+
               <div className='float-right'>
-                <Link to={`product/${this.state.product.id}`} className='mr-2'>
-                  Details
+                <Link to='/cart' className='btn btn-secondary'>
+                  Back...
                 </Link>
                 {this.props.children}
               </div>
             </div>
+            {/* card-footer ends here */}
           </div>
         </div>
       </div>
     )
+  }
+  componentDidMount = async () => {
+    var id = this.props.match.params.id
+    var response = await fetch(`http://localhost:5000/products/${id}`, {
+      method: 'GET',
+    })
+    var body = await response.json()
+
+    if (body) {
+      this.setState({ product: body })
+    }
+    document.title = `${this.state.product.productName} - eCommerce`
   }
 }

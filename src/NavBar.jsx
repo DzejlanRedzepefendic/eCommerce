@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import history from './history'
 class NavBar extends Component {
   render() {
     return (
@@ -42,6 +43,19 @@ class NavBar extends Component {
                 {this.props.isLoggedIn ? (
                   <li className='nav-item'>
                     <NavLink
+                      to='/dashboard'
+                      className='nav-link'
+                      activeClassName='active'
+                    >
+                      Dashboard
+                    </NavLink>
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.props.isLoggedIn ? (
+                  <li className='nav-item'>
+                    <NavLink
                       to='/customers'
                       className='nav-link'
                       activeClassName='active'
@@ -55,7 +69,7 @@ class NavBar extends Component {
                 {this.props.isLoggedIn ? (
                   <li className='nav-item'>
                     <NavLink
-                      to='/carts'
+                      to='/cart'
                       className='nav-link'
                       activeClassName='active'
                     >
@@ -67,13 +81,13 @@ class NavBar extends Component {
                 )}
                 {this.props.isLoggedIn ? (
                   <li className='nav-item'>
-                    <NavLink
-                      to='/dashboard'
+                    <a
+                      href='/#'
                       className='nav-link'
-                      activeClassName='active'
+                      onClick={this.onLogoutClick}
                     >
-                      Dashboard
-                    </NavLink>
+                      Logout
+                    </a>
                   </li>
                 ) : (
                   ''
@@ -84,6 +98,13 @@ class NavBar extends Component {
         </nav>
       </>
     )
+  }
+  onLogoutClick = (event) => {
+    event.preventDefault()
+
+    this.props.updateIsLoggedInStatus(false)
+
+    history.replace('/')
   }
 }
 

@@ -28,7 +28,9 @@ export default class ShoppingCart extends Component {
     )
   }
   // render ends
+
   componentDidMount = async () => {
+    document.title = 'ShoppingCart - eCommerce'
     var promise = await fetch('http://localhost:5000/products', {
       method: 'GET',
     })

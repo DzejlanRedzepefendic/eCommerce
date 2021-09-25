@@ -74,6 +74,9 @@ export default class CustomerList extends Component {
     )
   }
 
+  componentDidMount() {
+    document.title = 'Customers - eCommerce'
+  }
   onRefreshClick = () => {
     this.setState({ customersCount: 7 })
   }
