@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 export default class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = { email: 'abc@test.com', password: 'abc123 ' }
+    this.state = { email: '', password: '' }
   }
   render() {
     return (
@@ -43,11 +43,13 @@ export default class Login extends Component {
     )
   } // end of render
 
-  onLoginClick = () => {
-    if (
-      this.state.email === 'admin@gmail.com' &&
-      this.state.password === 'admin123'
-    ) {
+  onLoginClick = async () => {
+    var response = await fetch(
+      `http://localhost:5000/users?email=${this.state.email}&password=${this.state.password}`,
+      { method: 'GET' }
+    )
+    var data = await response.json()
+    if (data.length > 0) {
       window.alert('Success')
     } else {
       window.alert('Error')
