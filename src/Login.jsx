@@ -51,6 +51,7 @@ export default class Login extends Component {
     var data = await response.json()
     if (data.length > 0) {
       window.alert('Success')
+      this.props.updateIsLoggedInStatus(true)
     } else {
       window.alert('Error')
     }

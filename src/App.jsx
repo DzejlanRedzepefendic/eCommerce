@@ -8,13 +8,26 @@ import NoMatchPage from './NoMatchPage'
 import { Route, Switch } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { isLoggedIn: false }
+  }
   render() {
     return (
       <BrowserRouter>
-        <NavBar />
+        <NavBar isLoggedIn={this.state.isLoggedIn} />
         <div className='container-fluid'>
           <Switch>
-            <Route path='/' exact component={Login} />
+            <Route
+              path='/'
+              exact
+              render={(props) => (
+                <Login
+                  {...props}
+                  updateIsLoggedInStatus={this.updateIsLoggedInStatus}
+                />
+              )}
+            />
             <Route path='/dashboard' exact component={Dashboard} />
             <Route path='/customers' exact component={CustomerList} />
             <Route path='/cart' exact component={ShoppingCart} />
@@ -23,5 +36,8 @@ export default class App extends Component {
         </div>
       </BrowserRouter>
     )
+  }
+  updateIsLoggedInStatus = (status) => {
+    this.setState({ isLoggedIn: status })
   }
 }

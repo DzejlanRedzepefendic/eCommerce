@@ -19,3 +19,7 @@
 .hand-icon:hover {
   font-size: 18px;
 }
+
+.nav-link.active {
+  border-bottom: 2px solid #ffffff;
+}

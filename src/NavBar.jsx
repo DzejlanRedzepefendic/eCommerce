@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 class NavBar extends Component {
   render() {
     return (
@@ -25,26 +25,59 @@ class NavBar extends Component {
               id='navbarSupportedContent'
             >
               <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-                <li className='nav-item'>
-                  <Link to='/' className='nav-link'>
-                    Login
-                  </Link>
-                </li>
-                <li className='nav-item'>
-                  <Link to='/customers' className='nav-link'>
-                    Customers
-                  </Link>
-                </li>
-                <li className='nav-item'>
-                  <Link to='/carts' className='nav-link'>
-                    Shopping Cart
-                  </Link>
-                </li>
-                <li className='nav-item'>
-                  <Link to='/dashboard' className='nav-link'>
-                    Dashboard
-                  </Link>
-                </li>
+                {!this.props.isLoggedIn ? (
+                  <li className='nav-item'>
+                    <NavLink
+                      to='/'
+                      className='nav-link'
+                      activeClassName='active'
+                      exact={true}
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.props.isLoggedIn ? (
+                  <li className='nav-item'>
+                    <NavLink
+                      to='/customers'
+                      className='nav-link'
+                      activeClassName='active'
+                    >
+                      Customers
+                    </NavLink>
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.props.isLoggedIn ? (
+                  <li className='nav-item'>
+                    <NavLink
+                      to='/carts'
+                      className='nav-link'
+                      activeClassName='active'
+                    >
+                      Shopping Cart
+                    </NavLink>
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.props.isLoggedIn ? (
+                  <li className='nav-item'>
+                    <NavLink
+                      to='/dashboard'
+                      className='nav-link'
+                      activeClassName='active'
+                    >
+                      Dashboard
+                    </NavLink>
+                  </li>
+                ) : (
+                  ''
+                )}
               </ul>
             </div>
           </div>
