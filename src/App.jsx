@@ -10,6 +10,7 @@ import { Router } from 'react-router-dom'
 import history from './history'
 import SideBar from './Sidebar'
 import ProductById from './ProductById'
+import InsertCustomer from './InsertCustomer'
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -45,6 +46,7 @@ export default class App extends Component {
                 <Route path='/customers' exact component={CustomersList} />
                 <Route path='/cart' exact component={ShoppingCart} />
                 <Route path='/product/:id' exact component={ProductById} />
+                <Route path='/new-customer' exact component={InsertCustomer} />
                 <Route path='*' component={NoMatchPage} />
               </Switch>
             </div>

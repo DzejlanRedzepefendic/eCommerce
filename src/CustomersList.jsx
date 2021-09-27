@@ -1,48 +1,15 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 export default class CustomerList extends Component {
-  state = {
-    pageTitle: 'Customers',
-    customersCount: 5,
-    customers: [
-      {
-        id: 1,
-        name: 'Scott',
-        phone: '123-456',
-        address: { city: 'New Delhi' },
-        photo: 'https://picsum.photos/id/1010/60',
-      },
-      {
-        id: 2,
-        name: 'Jones',
-        phone: '982-014',
-        address: { city: 'New Jersy' },
-        photo: 'https://picsum.photos/id/1011/60',
-      },
-      {
-        id: 3,
-        name: 'Allen',
-        phone: '889-921',
-        address: { city: 'London' },
-        photo: 'https://picsum.photos/id/1012/60',
-      },
-      {
-        id: 4,
-        name: 'James',
-        phone: null,
-        address: { city: 'Berlin' },
-        photo: 'https://picsum.photos/id/1013/60',
-      },
-      {
-        id: 5,
-        name: 'John',
-        phone: null,
-        address: { city: 'New York' },
-        photo: 'https://picsum.photos/id/1014/60',
-      },
-    ],
+  constructor(props) {
+    super(props)
+    this.state = {
+      pageTitle: 'Customers',
+      customersCount: 5,
+      customers: [],
+    }
   }
-
   render() {
     return (
       <div>
@@ -53,9 +20,13 @@ export default class CustomerList extends Component {
             {this.state.customersCount}
           </span>
 
-          <button className='btn btn-info' onClick={this.onRefreshClick}>
-            Refresh
-          </button>
+          <Link
+            to='/new-customer'
+            className='btn btn-primary'
+            onClick={this.onRefreshClick}
+          >
+            New Customer
+          </Link>
         </h4>
 
         <table className='table'>
@@ -74,8 +45,12 @@ export default class CustomerList extends Component {
     )
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     document.title = 'Customers - eCommerce'
+
+    let response = await fetch('http://localhost:5000/customers')
+    let data = await response.json()
+    this.setState({ customers: data })
   }
   onRefreshClick = () => {
     this.setState({ customersCount: 7 })
