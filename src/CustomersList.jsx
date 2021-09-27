@@ -49,8 +49,12 @@ export default class CustomerList extends Component {
     document.title = 'Customers - eCommerce'
 
     let response = await fetch('http://localhost:5000/customers')
-    let data = await response.json()
-    this.setState({ customers: data })
+    if (response.ok) {
+      let data = await response.json()
+      this.setState({ customers: data, customersCount: data.length })
+    } else {
+      console.log('Error:' + response.status)
+    }
   }
   onRefreshClick = () => {
     this.setState({ customersCount: 7 })
@@ -84,6 +88,17 @@ export default class CustomerList extends Component {
           <td>{cust.name}</td>
           <td>{this.getPhoneToRender(cust.phone)}</td>
           <td>{cust.address.city}</td>
+          <td>
+            <Link to={`/edit-customer/${cust.id}`}>Edit</Link>
+            <button
+              className='btn btn-danger'
+              onClick={() => {
+                this.onDeleteClick(cust.id)
+              }}
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       )
     })
@@ -97,5 +112,20 @@ export default class CustomerList extends Component {
     custArr[index].photo = 'https://picsum.photos/id/104/60'
 
     this.setState({ customers: custArr })
+  }
+  onDeleteClick = async (id) => {
+    if (window.confirm('Are you sure to delete this customer?')) {
+      var response = await fetch(`http://localhost:5000/customers/${id}`, {
+        method: 'DELETE',
+      })
+      if (response.ok) {
+        var allCustomers = [...this.state.customers]
+        console.log(allCustomers)
+        allCustomers = allCustomers.filter((cust) => {
+          return cust.id !== id
+        })
+        this.setState({ customers: allCustomers })
+      }
+    }
   }
 }
