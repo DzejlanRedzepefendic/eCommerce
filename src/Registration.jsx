@@ -8,7 +8,7 @@ export default class Register extends Component {
       password: '',
       fullName: '',
       dateOfBirth: '',
-      controls: ['email', 'password', 'fullName', 'dataOfBirth'],
+      controls: ['email', 'password', 'fullName', 'dateOfBirth'],
       errors: {
         email: [],
         password: [],
@@ -130,6 +130,7 @@ export default class Register extends Component {
 
   validate = () => {
     const validEmailRegex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
+    const validPasswordRegex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15})/
     let errors = {}
 
     //reading each control from 'controls' array
@@ -151,6 +152,38 @@ export default class Register extends Component {
           }
           break
 
+        case 'password':
+          // password can't be blank
+          if (!this.state[control]) {
+            errors[control].push("Password can't be blank")
+          }
+          //checking password reg exp
+          if (this.state.password) {
+            if (!validPasswordRegex.test(this.state[control])) {
+              errors[control].push(
+                'Password should be 6 to 15 characters long with at least on uppercase letter, one lowercase letter and one digit'
+              )
+            }
+          }
+          break
+
+        case 'fullName':
+          if (!this.state[control]) {
+            errors[control].push("Full Name can't be blank")
+          }
+          break
+        case 'dateOfBirth':
+          if (!this.state[control]) {
+            errors[control].push("Date of Birth can't be blank")
+          }
+          if (this.state[control]) {
+            let dob = new Date(this.state[control]).getTime() //no of miliseconds since 1970-01-01
+            let today = new Date().getTime()
+            if (today - 18 * 365.25 * 24 * 60 * 60 * 1000 < dob) {
+              errors[control].push('Minimum age is 18 years')
+            }
+          }
+          break
         default:
           break
       }
